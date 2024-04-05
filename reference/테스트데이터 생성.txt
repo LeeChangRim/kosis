@@ -1,0 +1,14 @@
+from kosis import db
+from kosis.models import Stock
+from datetime import datetime
+
+for i in range(300):
+     s = Stock(code='CODE%08d' % i, name='테스트종목%03d' % i, symbol='symbol%03d' % i, create_date=datetime.now())
+     db.session.add(s)
+
+db.session.commit()
+
+오름차순
+{{ (loop.index0 + 1) + (stock_list.page - 1) * stock_list.per_page }}
+내림차순
+{{ stock_list.total - ((stock_list.page-1) * stock_list.per_page) - loop.index0 }}
