@@ -1,0 +1,5 @@
+.idea
+kosis.db
+*.pyc
+__pycache__
+migrations
