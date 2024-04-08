@@ -21,6 +21,8 @@ def detail(stock_id):
 def chart(code):
     page = request.args.get('page', type=int, default=1)  # 페이지
     
+    stockinfo = Stock.query.filter_by(code=code)
+
     # 해당 주식 코드(stock_code)에 대한 주가 시세를 일자 기준으로 오름차순 정렬하여 가져오기
     stockprice = StockPrice.query.filter_by(code=code).order_by(StockPrice.t_date.asc())
     
@@ -29,5 +31,6 @@ def chart(code):
     # 결과를 JSON 형태로 반환
     dates = [price.t_date for price in stockprice]
     prices = [price.price for price in stockprice]
+    volumes = [price.volume for price in stockprice]
     
-    return render_template('stock/stock_chart.html', stockprice=stockprice, dates=dates, prices=prices)
+    return render_template('stock/stock_chart.html', stockprice=stockprice, dates=dates, prices=prices, volumes=volumes, stockinfo=stockinfo)

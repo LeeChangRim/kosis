@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% block content %}
+<h1>Stock Chart for {{ code }}</h1> <!-- 종목코드 표시 -->
 <canvas id="stockChart" height="100"></canvas> <!-- 세로 크기 변경 -->
 <script>
     var ctx = document.getElementById('stockChart').getContext('2d');
     var chart = new Chart(ctx, {
-        type: 'line',
+        type: 'bar',
         data: {
             labels: {{ dates | tojson }},
             datasets: [{
@@ -12,22 +13,40 @@
                 fill: false,
                 backgroundColor: 'rgb(255, 99, 132)',
                 borderColor: 'rgb(255, 99, 132)',
-                data: {{ prices | tojson }}
+                data: {{ prices | tojson }},
+                type: 'line',
+                yAxisID: 'price-y-axis'
+            }, {
+                label: '거래량',
+                backgroundColor: 'rgb(54, 162, 235)',
+                borderColor: 'rgb(54, 162, 235)',
+                data: {{ volumes | tojson }},
+                yAxisID: 'volume-y-axis',
+                barThickness: '50' // 폭을 반으로 줄임
             }]
         },
         options: {
             layout: {
                     padding: {
+                        top: 50,
                         left: 80,
                         right: 80
                     }
             },
             scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
+                yAxes: [{
+                    id: 'price-y-axis',
+                    position: 'left',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }, {
+                    id: 'volume-y-axis',
+                    position: 'right',
+                    ticks: {
+                        beginAtZero: true
+                    }
+                }]
             },
             elements: {
                     line: {
@@ -35,11 +54,9 @@
                     }
             },
             legend: {
-                    position: 'bottom', // 레이블 위치 설정
-                    align: 'end', // 레이블 정렬 설정
-                    labels: {
-                        boxWidth: 20 // 레이블의 박스 너비 설정
-                    }
+                    display: true,
+                    position: 'top', // 라벨 위치 설정
+                    align: 'end' // 라벨 정렬 설정
             }
         }
     });
@@ -48,18 +65,18 @@
     <table class="table">
         <thead>
         <tr class="table-dark">
-            <th>종목코드</th>
             <th>거래일자</th>
             <th>주가</th>
+            <th>거래량</th>
         </tr>
         </thead>
         <tbody>
         {% if stockprice %}
         {% for stock in stockprice %}
         <tr>
-            <td class="align-middle">{{ stock.code }}</td>
             <td class="align-middle">{{ stock.t_date }}</td>
             <td class="align-middle">{{ stock.price }}</td>
+            <td class="align-middle">{{ stock.volume }}</td>
         </tr>
         {% endfor %}
         {% else %}
