@@ -18,3 +18,10 @@ class Stock(db.Model):
     industry = db.Column(db.String(100), nullable=True)             #산업
     exchange = db.Column(db.String(50), nullable=True)              #거래소
     create_date = db.Column(db.DateTime(), nullable=False)          #생성일자
+
+class StockPrice(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    code = db.Column(db.String(12), nullable=False)                 #종목코드
+    t_date = db.Column(db.String(8), nullable=True)                 #거래일자
+    price = db.Column(db.Float, nullable=True)
+    volume = db.Column(db.Float, nullable=True)
