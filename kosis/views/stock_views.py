@@ -21,12 +21,12 @@ def detail(stock_id):
 def chart(code):
     page = request.args.get('page', type=int, default=1)  # 페이지
     
-    stockinfo = Stock.query.filter_by(code=code)
+    stockinfo = Stock.query.filter(Stock.code==code).first()
 
     # 해당 주식 코드(stock_code)에 대한 주가 시세를 일자 기준으로 오름차순 정렬하여 가져오기
     stockprice = StockPrice.query.filter_by(code=code).order_by(StockPrice.t_date.asc())
     
-    stockprice = stockprice.paginate(page=page, per_page=10)
+    stockprice = stockprice.paginate(page=page, per_page=30)
     
     # 결과를 JSON 형태로 반환
     dates = [price.t_date for price in stockprice]

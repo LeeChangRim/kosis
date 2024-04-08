@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1>Stock Chart for {{ code }}</h1> <!-- 종목코드 표시 -->
+<h2 style="margin-left: 120px; margin-top: 10px;">
+    <span style="font-size: larger;">{{ stockinfo.name }}</span> 
+    <span style="font-size: smaller;">{{ stockinfo.symbol }}</span>
+</h2>
 <canvas id="stockChart" height="100"></canvas> <!-- 세로 크기 변경 -->
 <script>
     var ctx = document.getElementById('stockChart').getContext('2d');
@@ -22,13 +25,13 @@
                 borderColor: 'rgb(54, 162, 235)',
                 data: {{ volumes | tojson }},
                 yAxisID: 'volume-y-axis',
-                barThickness: '50' // 폭을 반으로 줄임
+                barThickness: '50' // 폭을 50으로 맞출
             }]
         },
         options: {
             layout: {
                     padding: {
-                        top: 50,
+                        top: 10,
                         left: 80,
                         right: 80
                     }
