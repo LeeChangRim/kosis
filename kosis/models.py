@@ -25,3 +25,22 @@ class StockPrice(db.Model):
     t_date = db.Column(db.String(8), nullable=True)                 #거래일자
     price = db.Column(db.Float, nullable=True)
     volume = db.Column(db.Float, nullable=True)
+
+class StockInfo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    isin = db.Column(db.String(12), nullable=False, unique=True)
+    ticker = db.Column(db.String(12), default=None)
+    kor_name = db.Column(db.String(100), default=None)
+    eng_name = db.Column(db.String(100), default=None)
+    prev_close = db.Column(db.Float, default=0)
+    day_range = db.Column(db.Float, default=0)
+    year_range = db.Column(db.Float, default=0)
+    market_cap = db.Column(db.Float, default=0)
+    avg_volume = db.Column(db.Float, default=0)
+    pe_ratio = db.Column(db.Float, default=0)
+    dividend_yield = db.Column(db.Float, default=0)
+    exchange = db.Column(db.String(50), default=None)
+    sector = db.Column(db.String(50), default=None)
+    industry = db.Column(db.String(50), default=None)
+    currency = db.Column(db.String(3), default=None)
+    iso = db.Column(db.String(3), default=None)
